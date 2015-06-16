@@ -1,0 +1,10 @@
+{
+  "name": "rm-manager",
+  "private": true,
+
+  "dependencies": {
+    "jQuery": "2.1.*",
+    "angular": "1.4.*",
+    "uikit": "2.*"
+  }
+}

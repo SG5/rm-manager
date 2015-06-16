@@ -1,0 +1,11 @@
+{
+  "name": "rm-manager",
+  "main": "index.html",
+  "window": {
+    "toolbar": true,
+    "width": 300,
+    "height": 600,
+    "min_width": 300,
+    "min_height": 200
+  }
+}
