@@ -46,23 +46,13 @@
             </div>
 		</div>
 
-		<div class="uk-panel uk-panel-box uk-margin-small-bottom">
-		    <div class="uk-panel-badge uk-badge">...</div>
-		    <h3 class="uk-panel-title">10:33</h3>
-		    {Project}, {issue}
-		</div>
+        <div ng-controller="issueCtrl">
+            <div ng-repeat="issue in issues" class="uk-panel uk-panel-box uk-margin-small-bottom">
+                <h3 class="uk-panel-title">10:33</h3>
+                <strong>{{issue.subject}}</strong> ({{issue.project.name}})
+            </div>
+        </div>
 
-		<div class="uk-panel uk-panel-box uk-margin-small-bottom">
-		    <div class="uk-panel-badge uk-badge">...</div>
-		    <h3 class="uk-panel-title">6517</h3>
-		    Бла бла бла
-		</div>
-
-		<div class="uk-panel uk-panel-box uk-margin-small-bottom">
-		    <div class="uk-panel-badge uk-badge">...</div>
-		    <h3 class="uk-panel-title">6517</h3>
-		    Бла бла бла
-		</div>
 	</div>
 
 	<script src="bower_components/jQuery/index.js"></script>
@@ -74,5 +64,6 @@
     <script src="js/config.js"></script>
     <script src="js/uikit.js"></script>
     <script src="js/controllers/setting.js"></script>
+    <script src="js/controllers/issue.js"></script>
   </body>
 </html>

@@ -15,6 +15,10 @@ rmManager.factory('config', function($http) {
 
     var config = localStorage.config && JSON.parse(localStorage.config) || defaultConfig;
 
+    if (config.userId) {
+        $http.defaults.headers.common['X-Redmine-API-Key'] = config.apiKey;
+    }
+
     var test = function(callback) {
         var url = require('url').parse(config.url);
 
@@ -47,7 +51,7 @@ rmManager.factory('config', function($http) {
                     callback && callback(false);
                 }
             });
-        }).on('error', function(e) {
+        }).on('error', function() {
             callback && callback(false);
         });
     };
