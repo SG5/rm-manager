@@ -10,6 +10,8 @@ rmManager.factory('config', function($http) {
         firstName: 'Redmine',
         lastName: 'User',
 
+        issueStatuses: [],
+        issueStatusDefault: 1,
         lastTask: 0
     };
 

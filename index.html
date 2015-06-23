@@ -39,6 +39,14 @@
                             </div>
                         </div>
                         <div class="uk-form-row">
+                            <label class="uk-form-label">Status on timer start</label>
+                            <div class="uk-form-controls">
+                                <select ng-model="config.issueStatusDefault"
+                                    ng-options="item.name disable when item.is_closed for item in config.issueStatuses track by item.id"
+                                    ></select>
+                            </div>
+                        </div>
+                        <div class="uk-form-row">
                             <a class="uk-button uk-button-success" href="#" ng-click="saveConfig()">Save</a>
                         </div>
                     </form>
