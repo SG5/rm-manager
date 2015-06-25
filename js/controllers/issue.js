@@ -4,8 +4,9 @@ rmManager.controller('issueCtrl', function($scope, $http, config) {
 
     $scope.issues   = [];
     $scope.statuses = [];
+    $scope.lastIssue = config.lastIssue;
 
-    var loadIssueList = function() {
+    $scope.loadIssueList = function() {
         $http.get(config.url + '/issues.json?assigned_to_id=me')
             .success(function(data) {
                 $scope.issues = data.issues;
@@ -13,9 +14,23 @@ rmManager.controller('issueCtrl', function($scope, $http, config) {
         ;
     };
 
+    $scope.startIssue = function(issueId) {
+        var data = {
+            issue: {
+                status_id: config.issueStatusDefault.id
+            }
+        };
+        $http.put(config.url + '/issues/' +issueId+ '.json', data)
+            .success(function(data) {
+                config.lastIssue = issueId;
+                $scope.lastIssue = config.lastIssue;
+            })
+        ;
+    };
+
     if (config.userId) {
-        loadIssueList();
-        setInterval(loadIssueList, 60 * 1000);
+        $scope.loadIssueList();
+        setInterval($scope.loadIssueList, 60 * 1000);
 
 
         $http.get(config.url + '/issue_statuses.json')

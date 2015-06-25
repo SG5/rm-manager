@@ -12,7 +12,7 @@ rmManager.factory('config', function($http) {
 
         issueStatuses: [],
         issueStatusDefault: 1,
-        lastTask: 0
+        lastIssue: 0
     };
 
     var config = localStorage.config && JSON.parse(localStorage.config) || defaultConfig;
