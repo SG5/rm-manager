@@ -2,7 +2,7 @@
 
 rmManager.controller('settingCtrl', function($scope, config, UIkit) {
 
-    $scope.config = config;
+    $scope.config = config.get();
 
     $scope.saveConfig = function() {
         config.save(function(result) {

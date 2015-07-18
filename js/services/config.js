@@ -1,6 +1,6 @@
 'use strict';
 
-rmManager.factory('config', function($http) {
+rmManager.service('config', function($http) {
     var defaultConfig = {
         url: '',
         apiKey: '',
@@ -58,7 +58,7 @@ rmManager.factory('config', function($http) {
         });
     };
 
-    config.save = function(callback) {
+    this.save = function(callback) {
         test(function(result) {
             if (result) {
                 localStorage.config = JSON.stringify(config);
@@ -67,5 +67,7 @@ rmManager.factory('config', function($http) {
         });
     };
 
-    return config;
+    this.get = function(key) {
+        return key && config[key] || config;
+    };
 });

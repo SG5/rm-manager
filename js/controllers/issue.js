@@ -1,39 +1,30 @@
 'use strict';
 
-rmManager.controller('issueCtrl', function($scope, $http, config) {
+rmManager.controller('issueCtrl', function($scope, $http, config, issue) {
 
     $scope.issues   = [];
     $scope.statuses = [];
-    $scope.lastIssue = config.lastIssue;
+    $scope.lastIssue = config.get('lastIssue');
 
     $scope.loadIssueList = function() {
-        $http.get(config.url + '/issues.json?assigned_to_id=me')
-            .success(function(data) {
-                $scope.issues = data.issues;
-            })
-        ;
+        issue.loadIssueList(function(data){
+            $scope.issues = data;
+        });
     };
 
     $scope.startIssue = function(issueId) {
-        var data = {
-            issue: {
-                status_id: config.issueStatusDefault.id
-            }
-        };
-        $http.put(config.url + '/issues/' +issueId+ '.json', data)
-            .success(function(data) {
-                config.lastIssue = issueId;
-                $scope.lastIssue = config.lastIssue;
-            })
-        ;
+        issue.startIssue(issueId, function() {
+            config.lastIssue = issueId;
+            $scope.lastIssue = config.lastIssue;
+        });
     };
 
-    if (config.userId) {
+    if (config.get('userId')) {
         $scope.loadIssueList();
         setInterval($scope.loadIssueList, 60 * 1000);
 
 
-        $http.get(config.url + '/issue_statuses.json')
+        $http.get(config.get('url') + '/issue_statuses.json')
             .success(function(data) {
                 $scope.statuses = data.issue_statuses;
                 config.issueStatuses = data.issue_statuses;
