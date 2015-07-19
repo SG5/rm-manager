@@ -48,22 +48,25 @@ rmManager.service('config', function($http) {
 
                     $http.defaults.headers.common['X-Redmine-API-Key'] = config.apiKey;
 
-                    callback && callback(true);
+                    callback && callback(0);
+                } else if (401 == res.statusCode){
+                    callback && callback('Wrong API key');
                 } else {
-                    callback && callback(false);
+                    callback && callback('Response code: ' + res.statusCode);
                 }
             });
-        }).on('error', function() {
-            callback && callback(false);
+        }).on('error', function(err) {
+            console.log(err.message);
+            callback && callback(err.message);
         });
     };
 
     this.save = function(callback) {
-        test(function(result) {
-            if (result) {
-                localStorage.config = JSON.stringify(config);
+        test(function(err) {
+            if (err) {
+                callback && callback(err);
             }
-            callback && callback(result);
+            localStorage.config = JSON.stringify(config);
         });
     };
 
