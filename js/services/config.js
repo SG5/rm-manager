@@ -11,7 +11,7 @@ rmManager.service('config', function($http) {
         lastName: 'User',
 
         issueStatuses: [],
-        issueStatusDefault: 1,
+        issueStatusDefault: 0,
         lastIssue: 0
     };
 
@@ -63,14 +63,19 @@ rmManager.service('config', function($http) {
 
     this.save = function(callback) {
         test(function(err) {
-            if (err) {
-                callback && callback(err);
+            if (!err) {
+                localStorage.config = JSON.stringify(config);
             }
-            localStorage.config = JSON.stringify(config);
+            callback && callback(err);
         });
     };
 
     this.get = function(key) {
         return key && config[key] || config;
+    };
+
+    this.set = function(key, value) {
+        config[key] = value;
+        localStorage.config = JSON.stringify(config);
     };
 });

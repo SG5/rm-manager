@@ -9,7 +9,7 @@
 	<link rel="stylesheet" href="css/style.css">
   </head>
   <body>
-  	<div class="uk-container rm-container">
+  	<div class="uk-container rm-container" ng-controller="issueCtrl">
 
 		<div class="rm-header" ng-controller="settingCtrl">
 			<div class="uk-grid">
@@ -18,7 +18,7 @@
 					<span ng-bind="config.firstName +' '+ config.lastName">Username</span>
 				</div>
 				<div class="uk-width-2-10 uk-text-right">
-					<a href="#">
+					<a href="#" ng-click="loadIssueList()">
 						<i class="uk-icon-refresh"></i>
 					</a>
 					<a href="#my-id" data-uk-modal>
@@ -58,15 +58,18 @@
             </div>
 		</div>
 
-        <div ng-controller="issueCtrl">
-            <div ng-repeat="issue in issues" class="uk-panel uk-panel-box uk-margin-small-bottom">
+        <div>
+            <div ng-repeat="issue in issues track by issue.id" class="uk-panel uk-panel-box uk-margin-small-bottom">
                 <div class="uk-grid uk-panel-title">
                     <div class="uk-width-8-10">
-                        <h3>10:33</h3>
+                        <h3>{{issue.id}} ({{issue.spentTime}} hours)</h3>
                     </div>
                     <div class="uk-width-2-10 uk-text-right">
-                        <a href="#" ng-click="startIssue(issue.id)">
+                        <a href="#" ng-click="startIssue(issue.id)" ng-hide="issue.id == lastIssue">
                             <i class="uk-icon-play"></i>
+                        </a>
+                        <a href="#" ng-click="stopIssue(issue.id)" ng-show="issue.id == lastIssue">
+                            <i class="uk-icon-pause"></i>
                         </a>
                     </div>
                 </div>
