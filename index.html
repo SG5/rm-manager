@@ -15,7 +15,7 @@
 			<div class="uk-grid">
 				<div class="uk-width-8-10">
 					<i class="uk-icon-user"></i>
-					<span ng-bind="config.firstName +' '+ config.lastName">Username</span>
+					<span ng-bind="config.firstName"></span> <span ng-bind="config.lastName"></span>
 				</div>
 				<div class="uk-width-2-10 uk-text-right">
 					<a href="#" ng-click="loadIssueList()">
@@ -62,7 +62,10 @@
             <div ng-repeat="issue in issues track by issue.id" class="uk-panel uk-panel-box uk-margin-small-bottom">
                 <div class="uk-grid uk-panel-title">
                     <div class="uk-width-8-10">
-                        <h3>{{issue.id}} ({{issue.spentTime}} hours)</h3>
+                        <h3>
+                            <span ng-bind="issue.id"></span>
+                            (<span ng-bind="issue.spentTime"></span> hours)
+                        </h3>
                     </div>
                     <div class="uk-width-2-10 uk-text-right">
                         <a href="#" ng-click="startIssue(issue.id)" ng-hide="issue.id == lastIssue">
@@ -74,7 +77,7 @@
                     </div>
                 </div>
 
-                <strong>{{issue.subject}}</strong> ({{issue.project.name}})
+                <strong ng-bind="issue.subject"></strong> (<span ng-bind="issue.project.name"></span>)
             </div>
         </div>
 
