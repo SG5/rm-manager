@@ -16,14 +16,24 @@ rmManager.controller('issueCtrl', function($scope, $http, config, issue) {
         });
     };
 
-    $scope.startIssue = function(issueId) {
-        issue.startIssue(issueId, function(err, response) {
-            config.set('lastIssue', issueId);
-            $scope.lastIssue = issueId;
+    var startIssueTimeout;
+    var runIssueTimer = function (issue) {
+        clearTimeout(startIssueTimeout);
+        startIssueTimeout = setTimeout(runIssueTimer, 1000);
+
+        issue.spentTime += 1;
+    };
+
+    $scope.startIssue = function(issue) {
+        runIssueTimer(issue);
+        issue.startIssue(issue.id, function(err, response) {
+            config.set('lastIssue', issue.id);
+            $scope.lastIssue = issue.id;
         });
     };
 
-    $scope.stopIssue = function(issueId) {
+    $scope.stopIssue = function(issue) {
+        clearTimeout(startIssueTimeout);
         config.set('lastIssue', 0);
         $scope.lastIssue = 0;
     };
