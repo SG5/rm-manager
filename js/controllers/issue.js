@@ -1,6 +1,6 @@
 'use strict';
 
-rmManager.controller('issueCtrl', function($scope, $http, config, issue) {
+rmManager.controller('issueCtrl', function($scope, $http, $timeout, config, issue) {
 
     $scope.issues   = [];
     $scope.statuses = [];
@@ -8,8 +8,8 @@ rmManager.controller('issueCtrl', function($scope, $http, config, issue) {
 
     var loadIssueListTimeout;
     $scope.loadIssueList = function() {
-        clearTimeout(loadIssueListTimeout);
-        loadIssueListTimeout = setTimeout($scope.loadIssueList, 60 * 1000);
+        $timeout.cancel(loadIssueListTimeout);
+        loadIssueListTimeout = $timeout($scope.loadIssueList, 60 * 1000);
 
         issue.getIssueList(function(data){
             $scope.issues = data;
@@ -18,22 +18,22 @@ rmManager.controller('issueCtrl', function($scope, $http, config, issue) {
 
     var startIssueTimeout;
     var runIssueTimer = function (issue) {
-        clearTimeout(startIssueTimeout);
-        startIssueTimeout = setTimeout(runIssueTimer, 1000);
-
         issue.spentTime += 1;
+
+        $timeout.cancel(startIssueTimeout);
+        startIssueTimeout = $timeout(function(){runIssueTimer(issue)}, 1000);
     };
 
-    $scope.startIssue = function(issue) {
-        runIssueTimer(issue);
-        issue.startIssue(issue.id, function(err, response) {
-            config.set('lastIssue', issue.id);
-            $scope.lastIssue = issue.id;
+    $scope.startIssue = function(issueObj) {
+        runIssueTimer(issueObj);
+        issue.startIssue(issueObj.id, function(err, response) {
+            config.set('lastIssue', issueObj.id);
+            $scope.lastIssue = issueObj.id;
         });
     };
 
     $scope.stopIssue = function(issue) {
-        clearTimeout(startIssueTimeout);
+        $timeout.cancel(startIssueTimeout);
         config.set('lastIssue', 0);
         $scope.lastIssue = 0;
     };

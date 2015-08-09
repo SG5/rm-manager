@@ -14,7 +14,7 @@ rmManager.service('issue', function($http, config) {
                         $http.get(config.get('url') + '/time_entries.json?issue_id=' + reponse.issues[i].id)
                             .success(function(responseTimeEntry) {
                                 responseTimeEntry.time_entries.forEach(function(el) {
-                                    reponse.issues[i].spentTime = reponse.issues[i].spentTime + el.hours;
+                                    reponse.issues[i].spentTime += el.hours * 3600;
                                 });
 
                                 ajaxInProgress--;
